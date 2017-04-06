@@ -53,7 +53,29 @@ function Caesar(s, n)
     return caesar
 end
 
+
+function PolyAlphabetic(s, numbers)
+	local poly = ""
+	local size = table.getn(numbers)
+	local len = string.len(s)
+	for i = 1, len-1 do
+		poly = poly..shift_char(string.sub(s,i,i), numbers[math.mod(i,size)+1])
+	end
+	poly = poly..shift_char(string.sub(s, len), numbers[math.mod(len,size)+1])
+	return poly
+end
+
+
+
 print(Caesar("andre mazal krauss", 26))
 c = Caesar("andre mazal krauss", 17)
 print(c)
 print(Caesar(c, -17))
+
+keys = {17,22,11,2,7}
+deKeys = {-17,-22,-11,-2,-7}
+s = "Andre Mazal Krauss"
+print("poly:")
+d = PolyAlphabetic(s, keys)
+dc = PolyAlphabetic(d, deKeys)
+print(dc)
