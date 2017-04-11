@@ -1,0 +1,17 @@
+criado por andré mazal krauss, abril de dois mil e dezessete
+
+essa mensagem exemplifica o uso do programa.
+
+	o programa é capaz de criptografar e decriptografar arquivos .txt
+	isso é feito usando números pseudo-aleatórios gerados pela biblioteca lua
+	e o cifro polialfabético(https://en.wikipedia.org/wiki/vigen%c3%a8re_cipher)
+	
+uso do programa:
+	ao ser perguntado sobre se quer criptografar/decriptografar, responda com c ou d respectivamente
+	
+	em seguida:
+		para criptografar, forneça o nome do arquivo(sem .txt)
+		para decriptografar, forneça os números xxxx vistos no nome do arquivo cryptedxxxx e keyxxxx
+
+esse readme já foi criptografado e descriptografado usando o programa! 
+cheque os resultados em crypted1234.txt, key1234.txt e decrypted1234.txt

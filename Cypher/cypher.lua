@@ -1,24 +1,130 @@
 
 -- Trabalho da disciplina Princípios de Engenharia de Sofware(INF1629), com o professor Júlio
--- Autor: André Mazal Krauss, data: 04/04/2017
+-- Autor: André Mazal Krauss, data de criação: 04/04/2017
+-- Data da última versão: 10/04/2017
+-- Tamanho: 232 linhas
 
 -- No programa a seguir, implementarei métodos simples de criptografia/decriptografia de strings. Os métodos serão aplicados sobre caracteres alfabéticos. Caracteres numéricos e de acentuação não são afetados.
 
--- métodos implementados:
-  -- Ceaser Cipher(shift Cipher): caso básico de criptografia, a função shifta todas os caracteres alfabéticos em uma string de um número constante
+
+--function main: funcionamento do programa: pergunta ao usuário se quer criptografar ou decriptografar arquivo, e o seu nome
+-- Parametros:  nenhum
+
+-- Retorno: 0 se sem falhas
+--PRE: nada
+--POS: alguma ação de (de)criptografia foi tomada, com criação de arquivos no diretório corrente.
+
+function main()
+
+	local answer
+	repeat
+	   io.write("Deseja criptografar ou decriptografar? (c/d)? ")
+	   io.flush()
+	   answer=io.read()
+	until answer=="c" or answer=="d"
+
+	--criptografar
+	if (answer == "c") then
+		io.write("Nome do arquivo?(sem .txt)")
+		io.flush()
+		answer=io.read()
+		cryptFile(answer..".txt")
+		print("Criptado\n")
+
+	elseif(answer == "d") then
+		io.write("Nome do arquivo?(sem .txt)")
+		io.flush()
+		answer=io.read()
+		decryptFile(answer)
+		print("Decriptado\n")
+	end
+
+end
+
+--FUNÇÔES AUXILIARES: leitura e escrita de arquivos
+
+--function readFile: lê arquivo.txt inteiro numa string e a retorna
+--Parametros: filename - nome do arquivo a ser lido
+--Retorno: string com texto do arquivo
+--PRE: filename é o nome de um arquivo.txt existente no diretório
+--POS: string retornada é o texto que está no arquivo
+
+function readFile(filename)
+	local str = ""
+	for line in io.lines(filename) do
+		str = str..line.."\n"
+	end
+	return str
+end
+
+--funtion writeFile: escreve string passada no arquivo.txt com o nome passado. Se arquivo não existe, ele é criado
+--Parametros: str - a string a ser escrita
+--			  filename - nome do arquivo de escrita
+--Retorno: 0 se sem problemas
+--PRE: str é uma string. filename é uma string terminada em .txt
+--POS: arquivo filename.txt foi criado ou sobrescrito para armazenar a string
+
+function writeFile(str, filename)
+	local out  = io.output (filename, w)
+	io.write(str)
+	io.close()
+end
+
+
+--FIM funções auxiliares: leitura e escrita de arquivos
 
 
 
--- function shift_char: shifta um caracter alfabético c de uma constante n
+-- FUNçÕES AUXILIARES - manipulação de strings
+
+--function parse: separa informação lida de string em array de inteiros. O separador usado são vírgulas. Os valores no array são o oposto dos na string para já obtermos a chave de decriptografação
+--Parametros: str - string a ser parseada
+--Retorno: array de inteiros
+--PRE: str é uma string com um ou mais valores separados por vírgulas
+--POS: é retornado um array com o oposto dos valores parseados de str
+function parseOposite(str)
+	local array = {}
+	for match in str:gmatch("([%d%.%+%-]+),?") do
+		array[#array + 1] = -tonumber(match)
+	end
+	return array
+end
+
+-- FIM. FUNçÕES AUXILIARES - manipulação de strings
+
+
+-- FUNÇõES AUXILIARES - números pseudo-aleatórios
+
+--function randomArray: usa gerador de números pseudo-aleatórios para gerar um array de tamanho lenght com números de 0 a 25
+-- Parametros: lenght - tamanho do array desejado
+-- Retorno:    array de tamanho lenght inicializado com numeros pseudo-aleatórios entre 0 e 25
+--PRE: lenght é um inteiro >0
+--POS: retorno é array de tamanho lenght de números entre 0 e 25 gerados
+
+function randomArray(lenght)
+	local key = {}
+	math.randomseed( os.time() )
+	math.random(); math.random(); math.random()
+
+	for i = 1, lenght do
+		table.insert(key, math.random(0,25))
+	end
+	return key
+end
+
+-- FIM. FUNÇõES AUXILIARES - números pseudo-aleatórios
+
+--FUNÇÕES DE CRIPTOGRAFIA:
+
+-- function shift_char: shifta um caracter alfabético c de uma constante n. Se o carater não é alfabético do ASCII padrão, é retornado igual
 -- Parametros:  c é o carater a ser shiftado,
 --              n um valor inteiro.
 -- Retorno: caracter shiftado
+-- PRE: c é um caractere. N é um inteiro entre -26 e 26
+-- POS: é retornado o caractere shiftado em n
 
 
-
-
-
-function shift_char(c, n)
+function shiftChar(c, n)
 
   if(math.abs(n) > 26) then return '_' end
   local numZ = string.byte("z")
@@ -38,35 +144,24 @@ function shift_char(c, n)
 end
 
 
--- function Caesar: Aplica um código de César na string passada. Ou seja, shifta toda a string s de um inteiro constante n
--- Parametros:  s é a string a ser shiftada,
---              n um valor inteiro.
--- Retorno: string shiftada
-
-function Caesar(s, n)
-    local caesar = ""
-    local len = string.len(s)
-    for i = 1, len-1 do
-      caesar = caesar..shift_char(string.sub(s,i,i),n)
-    end
-    caesar = caesar..shift_char(string.sub(s,len),n)
-    return caesar
-end
 
 -- function PolyAlphabetic: (Des)Aplica um cifro polialfabético na string passada. Ou seja, shifta toda a string s de uma array de inteiros. Se o array é menos que a string, começa-se a repetir os numeros em ordem. Nesse caso, a mensagem poderá ser decriptografado analisando os padrões resultantes.
+-- obs: se numbers é um inteiro somente, obtemos o cifro de César
 -- Parametros:  s é a string a ser (de)criptografada,
 --              n um valor inteiro.
 
 -- Retorno: string criptografada
+--PRE: s é uma string. numbers é um array de números inteiros
+--POS: string criptografada usando os números em numbers é retornada
 
 function PolyAlphabetic(s, numbers)
 	local poly = ""
 	local size = table.getn(numbers)
 	local len = string.len(s)
 	for i = 1, len-1 do
-		poly = poly..shift_char(string.sub(s,i,i), numbers[math.mod(i,size)+1])
+		poly = poly..shiftChar(string.sub(s,i,i), numbers[math.mod(i,size)+1])
 	end
-	poly = poly..shift_char(string.sub(s, len), numbers[math.mod(len,size)+1])
+	poly = poly..shiftChar(string.sub(s, len), numbers[math.mod(len,size)+1])
 	return poly
 end
 
@@ -75,115 +170,64 @@ end
 -- Além disso, o nome do txt tampouco será criptografado
 -- Parametros: filename é o nome do arquivo a ser criptografado
 -- Retorno: nome da criptografia.(usado para decriptografar)
-
+-- PRE: filename é o nome.txt de um arquivo texto existente no diretório
+-- POS: novo arquivo .txt com nome cryptedXXXX.txt foi criado, e também outro arquivo keysXXXX.txt com a chave usada.
 function cryptFile(filename)
-	local message  = ""
-	for line in io.lines(filename) do
-		message = message..line.."\n"
-	end
 
-	local key = {}
-	math.randomseed( os.time() )
-	math.random(); math.random(); math.random()
+	-- lê em string mensagem a ser criptografada
+	local message  = readFile(filename)
 
-	for i = 1, string.len(message) do
-		table.insert(key, math.random(0,25))
-	end
+	--obtem chaves de criptografia
+	local key = randomArray(string.len(message))
 
+	--criptografa a string usando o cifro polialfabético
 	local crypted = PolyAlphabetic(message, key)
 
-	local name = tostring(math.random(1,1000))
+	-- obtem nome aleatorio para mensagem
+	local name = tostring(math.random(1000,9999))
 
-	local out  = io.output ("crypted"..name..".txt", w)
-	io.write(crypted)
+	--escreve mensagem em arquivo
+	writeFile(crypted, "crypted"..name..".txt")
 
---~ 	local out2 = io.open("key"..name..".bin", "wb")
---~ 	local str = ""
---~ 	for i = 1, table.getn(key) do
---~  		str = str..string.char(key[i])
---~ 	end
---~ 	out2:write(str)
---~ 	out2:close()
---~
---~
---~
-	local out2 = io.output("key"..name..".txt",w)
+	--escreve chave em arquivo
+	local sKeys = ""
 	for i = 1, table.getn(key) do
- 		io.write(key[i]..",")
+ 		sKeys = sKeys..key[i]..","
 	end
+	writeFile(sKeys, "key"..name..".txt")
 
 	return name
 
 end
 
---function cryptFile: decriptografa o arquivo de nome filename, onde filename é um string com um inteiro de 1 a 1000. Supõem a existencia dos arquivos keyXXXX.bin e cryptedXXXX.txt
+--function decryptFile: decriptografa o arquivo de nome filename, onde filename é um string com um inteiro de 1000 a 9999. Supõem a existencia dos arquivos keyXXXX.txt e cryptedXXXX.txt
+-- Parametros: filename: string com XXXX usado para identificar arquivos
+-- Retorno: 0 se ok
+-- PRE: filename é uma string da forma XXXX onde X = 0..9
+-- POS: novo arquivo decriptografado corretamente foi criado com o nome de decryptedXXXX.txt
 function decryptFile(filename)
---~ 	local input = io.open("key"..filename..".bin", rb)
---~ 	local key = {}
---~ 	while true do
---~ 		local byte = input:read(1)
---~ 		if not byte then break end
---~ 		table.insert(key, byte)
---~ 	end
---~ 	input:close()
 
-	-- lê arquivos com as chaves para string secret
+	-- lê arquivo keyXXXX.txt com as chaves separadas por vírgulas para string secret
+	local secret = readFile("key"..filename..".txt")
 
-	local secret = ""
-	for line in io.lines("key"..filename..".txt") do
-		secret = secret..line
-	end
+	--parseia string e obtem array com as chaves de descriptografia
+	key = parseOposite(secret)
 
-	--separa informação lida em table key de inteiros
-	local key = {}
-	for match in secret:gmatch("([%d%.%+%-]+),?") do
-		key[#key + 1] = -tonumber(match)
-	end
+	--le mensagem criptografada de cryptedXXXX.txt
+	local message = readFile("crypted"..filename..".txt")
 
-	local message  = ""
-	for line in io.lines("crypted"..filename..".txt") do
-		message = message..line.."\n"
-	end
-
-	print(message)
-	for i = 1, table.getn(key) do
- 		print(key[i])
-	end
-
-
+	--usa chave e mensagem criptografada para obter mensagem original
 	local decrypted = PolyAlphabetic(message, key)
 
-	print(decrypted)
+	--escreve mensagem original em arquivo
+	writeFile(decrypted, "decrypted"..filename..".txt")
 
-	local out  = io.output ("decrypted"..filename..".txt", w)
-	io.write(decrypted)
-
-
-
-
-
+	return 0
 end
 
---cryptFile("alice.txt")
+--FIM. FUNÇÕES DE CRIPTOGRAFIA:
 
-decryptFile(286)
+--executa main
+main()
 
---~ key4 = {-4,-8,-3,-21,0}
---~ message4 = "idvae"
---~ decrypted4 = PolyAlphabetic(message4, key4)
---~ print(decrypted4)
-
---~ print(Caesar("andre mazal krauss", 26))
---~ c = Caesar("andre mazal krauss", 17)
---~ print(c)
---~ print(Caesar(c, -17))
-
---~ keys = {17,22,11,2,7}
---~ deKeys = {-17,-22,-11,-2,-7}
---~ s = "Andre Mazal Krauss"
---~ print("poly:")
---~ d = PolyAlphabetic(s, keys)
---~ dc = PolyAlphabetic(d, deKeys)
---~ print(dc)
-
-
+--FIM DE cypher.lua. AMK, 2017
