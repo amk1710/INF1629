@@ -205,6 +205,7 @@ end
 -- Retorno: 0 se ok
 -- PRE: filename é uma string da forma XXXX onde X = 0..9
 -- POS: novo arquivo decriptografado corretamente foi criado com o nome de decryptedXXXX.txt
+
 function decryptFile(filename)
 
 	-- lê arquivo keyXXXX.txt com as chaves separadas por vírgulas para string secret

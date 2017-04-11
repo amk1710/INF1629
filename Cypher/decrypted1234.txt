@@ -7,6 +7,7 @@ essa mensagem exemplifica o uso do programa.
 	e o cifro polialfabético(https://en.wikipedia.org/wiki/vigen%c3%a8re_cipher)
 	
 uso do programa:
+	execute crypto.lua em um diretório com os arquivos a serem (de)criptografados
 	ao ser perguntado sobre se quer criptografar/decriptografar, responda com c ou d respectivamente
 	
 	em seguida:
