@@ -5,4 +5,4 @@ Aluno André Mazal Krauss.
 
 Conteúdo: 
 
-Cypher: Simples criptografador de strings. Linguagem Lua.
+Cypher: Simples criptografador de arquivos .txt. Linguagem Lua.
