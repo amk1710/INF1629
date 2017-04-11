@@ -1,0 +1,15 @@
+Livro-diario do trabalho de criptografia de arquivos, para disciplina INF1629
+Autor: André Mazal Krauss
+Data de criação: 04/04/2017
+
+11/04 - correções ao livro diário, diagrama e readme
+
+10/04 - criação das funções para cryptFile e decryptFile, que utiliza as funções pré-existentes
+	para (de)criptar arquivos .txt. 
+	Reorganização das funções cryptFile e decryptFile, utilizando mais funções auxiliares
+	Criação de randomArray, readFile, writeFile e parseOposite para auxiliar cryptFile e decryptFile. 
+
+06/04 - construção em lua do projeto base do arquivo crypto.lua. Funções shiftaChar, 
+	Caesar(descontinuada) e polyAlphabetic. 
+
+04/04 - estudo básico da linguagem Lua
