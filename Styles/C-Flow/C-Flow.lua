@@ -103,14 +103,47 @@ function print_all(n, word_freqs)
 
 	local count = 1;
 
-	for index in ipairs(word_freqs) do
-		if count > n then break else count = count + 1 end
-		print(word_freqs[index].word, word_freqs[index].frequency)
+
+	for i = 1,n do
+		print(word_freqs[i].word, word_freqs[i].frequency)
 	end
+
+
+	return
 
 end
 
 
 --The main function
 
-print_all(25, dictionary_sort(frequencies(remove_stop_words(scan(filter_chars_and_normalize(read_file("../pride-and-prejudice.txt"))), scan(filter_chars_and_normalize(read_file("../stop_words.txt")))))))
+function main()
+	--string com arquivo a ser processado
+	str = read_file("../pride-and-prejudice.txt")
+	--remove caracteres não alfabéticos
+	str = filter_chars_and_normalize(str)
+	--lista de palavras a serem consideradas
+	word_list = scan(str)
+
+	--repete o mesmo processo para obter stop-words
+	stop_list = scan(filter_chars_and_normalize(read_file("../stop_words.txt")))
+
+	--remove stop-words da lista de palavras
+
+	word_list = remove_stop_words(word_list, stop_list)
+
+	--obtem dicionário de frequencias
+	dictionary = frequencies(word_list)
+
+	--ordena em um array por frequencia
+	sorted_array = dictionary_sort(dictionary)
+
+	--imprime 25 palavras mais frequentes
+	print_all(25, sorted_array)
+
+	return
+
+end
+
+main()
+
+--print_all(25, dictionary_sort(frequencies(remove_stop_words(scan(filter_chars_and_normalize(read_file("../pride-and-prejudice.txt"))), scan(filter_chars_and_normalize(read_file("../stop_words.txt")))))))

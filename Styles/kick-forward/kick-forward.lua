@@ -131,7 +131,7 @@ function print_all(word_freqs, func)
 
 	local count = 1;
 
-	for index in pairs(word_freqs) do
+	for index in ipairs(word_freqs) do
 		if count > n then break else count = count + 1 end
 		print(word_freqs[index].word, word_freqs[index].frequency)
 	end
