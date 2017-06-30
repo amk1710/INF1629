@@ -1,6 +1,6 @@
 --kick-forward style:
-	--estilo baseado em funcinuaÁ„o. Cada funÁ„o tem como ultimo argumento func(funÁ„o de funcinuation).
-	--Esse argumento È uma outra funÁ„o que ser· chamada ao tÈrmino desta tendo o seu antigo retorno como parametro
+	--estilo baseado em funcinua√ß√£o. Cada fun√ß√£o tem como ultimo argumento func(fun√ß√£o de funcinuation).
+	--Esse argumento √© uma outra fun√ß√£o que ser√° chamada ao t√©rmino desta tendo o seu antigo retorno como parametro
 
 
 --global constansts
@@ -10,10 +10,10 @@ N = 25
 
 -- The functions
 
---function read_file: lÍ arquivo.txt inteiro numa string
+--function read_file: l√™ arquivo.txt inteiro numa string
 --Parametros: filename - nome do arquivo a ser lido
---PRE: filename È o nome de um arquivo.txt existente no diretÛrio
---POS: string retornada È o texto que est· no arquivo
+--PRE: filename √© o nome de um arquivo.txt existente no diret√≥rio
+--POS: string retornada √© o texto que est√° no arquivo
 
 function read_file(filename, func)
 	local str = ""
@@ -23,7 +23,7 @@ function read_file(filename, func)
 	func(str, scan)
 end
 
---retorna uma string com todos os caracteres n„o-alfanumÈricos substituÌdos por espaÁos em branco
+--retorna uma string com todos os caracteres n√£o-alfanum√©ricos substitu√≠dos por espa√ßos em branco
 
 function filter_chars_and_normalize(str_data, func)
 
@@ -87,7 +87,7 @@ function remove_stop_words(word_list, func)
 
 end
 
---recebe uma lista de palavras e obtem um dicion·rio associando as palavras com suas frequencias de ocorrÍncia
+--recebe uma lista de palavras e obtem um dicion√°rio associando as palavras com suas frequencias de ocorr√™ncia
 
 function frequencies(word_list, func)
 
@@ -98,7 +98,7 @@ function frequencies(word_list, func)
 			--cria entrada para nova palavra
 			word_freqs[word] = {["word"] = word, ["frequency"] = 1}
 		else
-			--entrada j· existe. incrementa frequencia
+			--entrada j√° existe. incrementa frequencia
 			word_freqs[word].frequency = word_freqs[word].frequency + 1
 		end
 	end
@@ -108,7 +108,7 @@ function frequencies(word_list, func)
 end
 
 
---recebe um dicionario(table de table) de palavras e suas frequencias e obtem um array de tables onde as entradas est„o ordenadas por frequencia.
+--recebe um dicionario(table de table) de palavras e suas frequencias e obtem um array de tables onde as entradas est√£o ordenadas por frequencia.
 function dictionary_sort(dictionary, func)
 
     local sorted_array = {}
@@ -122,7 +122,7 @@ function dictionary_sort(dictionary, func)
 
 end
 
---recebe um array ordenado de pares palavra-frequencia e imprime n posiÁıes do mesmo
+--recebe um array ordenado de pares palavra-frequencia e imprime n posi√ß√µes do mesmo
 function print_all(word_freqs, func)
 
 	local n = N
@@ -140,5 +140,6 @@ function print_all(word_freqs, func)
 
 end
 
---comeÁo da execuÁ„o encadeada
+--come√ßo da execu√ß√£o encadeada
 read_file("../pride-and-prejudice.txt", filter_chars_and_normalize)
+--ver comentarios no pull-request (Roxana)
