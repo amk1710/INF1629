@@ -74,7 +74,7 @@ function frequencies()
 			--cria entrada para nova palavra
 			word_freqs[word] = {["word"] = word, ["frequency"] = 1}
 		else
-			--entrada já existe. incrementa frequencia
+			--entrada jÃ¡ existe. incrementa frequencia
 			word_freqs[word].frequency = word_freqs[word].frequency + 1
 		end
 	end
@@ -94,7 +94,7 @@ function sort()
 	word_freqs = sorted_array
 end
 
---recebe um array ordenado de pares palavra-frequencia imprime n posições do mesmo
+--recebe um array ordenado de pares palavra-frequencia imprime n posiÃ§Ãµes do mesmo
 function print_all(n)
 
 	if n > #word_freqs then n = #word_freqs end
@@ -121,3 +121,4 @@ frequencies()
 sort()
 
 print_all(25)
+--ver comentarios no pull-request (Roxana)
