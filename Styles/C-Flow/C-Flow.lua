@@ -1,10 +1,10 @@
 -- The functions
 
---function read_file: lÍ arquivo.txt inteiro numa string e a retorna
+--function read_file: l√™ arquivo.txt inteiro numa string e a retorna
 --Parametros: filename - nome do arquivo a ser lido
 --Retorno: string com texto do arquivo
---PRE: filename È o nome de um arquivo.txt existente no diretÛrio
---POS: string retornada È o texto que est· no arquivo
+--PRE: filename √© o nome de um arquivo.txt existente no diret√≥rio
+--POS: string retornada √© o texto que est√° no arquivo
 
 function read_file(filename)
 	local str = ""
@@ -14,7 +14,7 @@ function read_file(filename)
 	return str
 end
 
---retorna uma string com todos os caracteres n„o-alfanumÈricos substituÌdos por espaÁos em branco
+--retorna uma string com todos os caracteres n√£o-alfanum√©ricos substitu√≠dos por espa√ßos em branco
 
 function filter_chars_and_normalize(str_data)
 
@@ -61,7 +61,7 @@ function remove_stop_words(word_list, stop_list)
 
 end
 
---recebe uma lista de palavras e retorna um dicion·rio associando as palavras com suas frequencias de ocorrÍncia
+--recebe uma lista de palavras e retorna um dicion√°rio associando as palavras com suas frequencias de ocorr√™ncia
 
 function frequencies(word_list)
 
@@ -72,7 +72,7 @@ function frequencies(word_list)
 			--cria entrada para nova palavra
 			word_freqs[word] = {["word"] = word, ["frequency"] = 1}
 		else
-			--entrada j· existe. incrementa frequencia
+			--entrada j√° existe. incrementa frequencia
 			word_freqs[word].frequency = word_freqs[word].frequency + 1
 		end
 	end
@@ -82,7 +82,7 @@ function frequencies(word_list)
 end
 
 
---recebe um dicionario(table de table) de palavras e suas frequencias e retorna um array de tables onde as entradas est„o ordenadas por frequencia.
+--recebe um dicionario(table de table) de palavras e suas frequencias e retorna um array de tables onde as entradas est√£o ordenadas por frequencia.
 function dictionary_sort(dictionary)
 
     local sorted_array = {}
@@ -96,7 +96,7 @@ function dictionary_sort(dictionary)
 
 end
 
---recebe um array ordenado de pares palavra-frequencia imprime n posiÁıes do mesmo
+--recebe um array ordenado de pares palavra-frequencia imprime n posi√ß√µes do mesmo
 function print_all(n, word_freqs)
 
 	if n > #word_freqs then n = #word_freqs end
@@ -119,7 +119,7 @@ end
 function main()
 	--string com arquivo a ser processado
 	str = read_file("../pride-and-prejudice.txt")
-	--remove caracteres n„o alfabÈticos
+	--remove caracteres n√£o alfab√©ticos
 	str = filter_chars_and_normalize(str)
 	--lista de palavras a serem consideradas
 	word_list = scan(str)
@@ -131,7 +131,7 @@ function main()
 
 	word_list = remove_stop_words(word_list, stop_list)
 
-	--obtem dicion·rio de frequencias
+	--obtem dicion√°rio de frequencias
 	dictionary = frequencies(word_list)
 
 	--ordena em um array por frequencia
@@ -147,3 +147,4 @@ end
 main()
 
 --print_all(25, dictionary_sort(frequencies(remove_stop_words(scan(filter_chars_and_normalize(read_file("../pride-and-prejudice.txt"))), scan(filter_chars_and_normalize(read_file("../stop_words.txt")))))))
+-- ver comentarios no pull-request(Roxana)
